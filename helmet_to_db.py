@@ -16,8 +16,8 @@ import csv
 import math
 import signal
 
-DATABASE_PATH = '../database.db'
-SENSOR_DATA_PATH = '../sensor_data.csv'
+DATABASE_PATH = 'database.db'
+SENSOR_DATA_PATH = 'sensor_data.csv'
 
 def add_data_to_db(new_data=None):
     '''
