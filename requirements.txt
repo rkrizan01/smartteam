@@ -1,4 +1,3 @@
-fastapi
-starlette
-uvicorn
-sqlalchemy
+pyserial
+flask
+flask_restful

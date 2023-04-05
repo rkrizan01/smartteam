@@ -14,6 +14,7 @@ import time
 import subprocess
 import csv
 import math
+import signal
 
 DATABASE_PATH = '../database.db'
 SENSOR_DATA_PATH = '../sensor_data.csv'
@@ -69,16 +70,25 @@ timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         c.execute(create_table_query)
         print("database.db not found, file initialized")
 
+# Code was written to handle shutdowns with keyboardinterrupt, so make it happy.
+def shutdown (signal, frame):
+    raise KeyboardInterrupt()
+
 ###################################
 # MAIN LOOP
 ###################################
-if __name__ == '__main__':
+def main():
+    signal.signal(signal.SIGTERM, shutdown)
     if not os.path.isfile(DATABASE_PATH):
         init_db()
 
     # Read data from bluetooth port 0, populate data into database.db
-    ser = serial.Serial(port='/dev/rfcomm0', baudrate=9600)
-    error_count = 0 
+    try:
+        ser = serial.Serial(port='/dev/rfcomm0', baudrate=9600)
+    except Exception:
+            print("Bluetooth device not available")
+            exit()
+    error_count = 0
     print("ENTERING LOOP")
     while True:
         try:
@@ -94,7 +104,6 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             print('KeyboardInterrupt found, exiting')
             exit()
-        
         except Exception as e:
             print(f'error with reading bt_data: {e}')
             error_count += 1
