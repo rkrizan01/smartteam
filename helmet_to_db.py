@@ -70,22 +70,6 @@ timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         print("database.db not found, file initialized")
 
 ###################################
-# HELPER FUNCTIONS (NOT BEING USED)
-###################################
-
-def read_data_from_db():
-    with sqlite3.connect(DATABASE_PATH) as conn:
-        c = conn.cursor()
-        c.execute("SELECT * FROM arduino_data")
-        print(c.fetchall())
-
-
-def rm_data_from_db(n):
-    with sqlite3.connect(DATABASE_PATH) as conn:
-        c = conn.cursor()
-        c.execute("DELETE FROM arduino_data WHERE id=?", (n,))
-
-###################################
 # MAIN LOOP
 ###################################
 if __name__ == '__main__':
