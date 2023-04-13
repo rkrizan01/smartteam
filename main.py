@@ -1,7 +1,10 @@
 from multiprocessing import Process
 import helmet_to_db
+import database
 import server
 import signal
+
+database.init_db()
 
 BLUETOOTH_THREAD = Process(target=helmet_to_db.main)
 SERVER_THREAD = Process(target=server.app.run, kwargs={'host': "0.0.0.0"})
