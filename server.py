@@ -7,10 +7,12 @@ import signal
 app = Flask(__name__)
 api = Api(app)
 
+# the raw data path
 class ArduinoData(Resource):
     def get(self):
         return [d.__dict__ for d in Data.get_all()]
-
+    
+# the risks path
 class Concussions(Resource):
     def get(self):
         data = Data.get_all()
@@ -22,7 +24,7 @@ class Concussions(Resource):
         concussions["total"] = sum (concussions.values())
         return concussions
 
-# Return 200 with no data.
+# Return 200 with no data. Ping Path
 class HealthCheck (Resource):
     def get(self):
         return Response(status=200)
